@@ -4,7 +4,11 @@
 [include]
 
 [libs]
-flow-typed
 
 [options]
-all=true
+module.file_ext=.html
+module.file_ext=.js
+module.file_ext=.jsx
+module.file_ext=.mjs
+module.file_ext=.vue
+suppress_comment=\\(.\\|\n\\)*\\$FlowIgnoreNextLine
