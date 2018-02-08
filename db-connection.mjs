@@ -1,18 +1,18 @@
 /* @flow */
 
-import mongoClient from 'mongodb';
+import mongodb from 'mongodb';
 
-import { DB_URL } from './utils/config';
+import { CONFIG } from './utils/config';
 
-let db;
-mongoClient.connect(DB_URL, (err: Error, client) => {
-  if (err) return console.log(err);
-  console.log('Creating database...');
-  db = client.db('list-app-db');
-});
+const { MongoClient } = mongodb;
 
-export default class DB {
-  static connection() {
-    return db;
-  }
+export function getConnection(): Promise<*> {
+  return new Promise((resolve, reject) => {
+    MongoClient.connect(CONFIG.DB_URL, (err: Error, client) => {
+      if (err) return reject(err);
+      const db = client.db(CONFIG.DB_NAME);
+      console.log('Connected to the database.');
+      return resolve({ db, client });
+    });
+  });
 }

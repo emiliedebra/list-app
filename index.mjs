@@ -3,7 +3,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import { PORT } from './utils/config';
+import { CONFIG } from './utils/config';
 import { User } from './data-access/index';
 import type { TUser } from './utils/types';
 
@@ -32,6 +32,6 @@ app.post('/add-user', (req: express$Request, res: express$Response) => User
   })
   .catch((error: Error) => console.log(`ERROR: ${error.message}`)));
 
-app.listen(PORT, () => {
+app.listen(CONFIG.PORT, () => {
   console.log('listening on port 3000');
 });
