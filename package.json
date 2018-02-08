@@ -9,18 +9,30 @@
   "private": false,
   "devDependencies": {
     "@awt-tooling/eslint-config-awt-flow": "^1.1.1",
+    "@std/esm": "^0.20.0",
     "eslint": "^4.17.0",
+    "flow-remove-types": "^1.2.3",
     "nodemon": "^1.14.12"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
     "express": "^4.16.2",
+    "flow-bin": "^0.65.0",
+    "mocha": "^5.0.0",
     "mongodb": "^3.0.2"
   },
   "scripts": {
+    "test": "npm run build && mocha -r flow-remove-types/register -r @std/esm './test/*.mjs'",
     "dev": "nodemon --experimental-modules index.mjs",
     "flow": "flow",
     "flow:check": "flow check ./src",
-    "build": "flow-remove-types ./src/ -d ./lib/ --all --pretty"
+    "build": "rm -rf ./lib && flow-remove-types -p -d ./lib/ ./**/*.mjs && flow-remove-types -p -d ./lib/ *.mjs"
+  },
+  "@std": {
+    "esm": {
+      "esm": "all",
+      "cjs": true
+    }
   }
 }
