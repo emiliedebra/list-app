@@ -15,15 +15,15 @@ beforeEach((done) => {
   getCollections()
     .then((coll) => {
       if (coll.users) {
-        console.log('Got Users');
+        // console.log('Got Users');
         coll.users.remove({})
           .then(() => {
-            console.log('Removed Users.');
+            // console.log('Removed Users.');
             if (coll.lists) {
-              console.log('Got Lists');
+              // console.log('Got Lists');
               coll.lists.remove({})
                 .then(() => {
-                  console.log('Removed Lists.');
+                  // console.log('Removed Lists.');
                   done();
                 })
                 .catch(err => done(err));

@@ -24,8 +24,8 @@
     "mongoose": "^5.0.3"
   },
   "scripts": {
-    "test": "npm run build && mocha -r flow-remove-types/register -r @std/esm './test/*.mjs'",
-    "dev": "nodemon --experimental-modules index.mjs",
+    "test": "yarn run build && mocha -r flow-remove-types/register -r @std/esm './test/*.mjs'",
+    "dev": "yarn run build && nodemon --experimental-modules ./lib/index.mjs",
     "flow": "flow",
     "flow:check": "flow check ./src",
     "build": "rm -rf ./lib && flow-remove-types -p -d ./lib/ ./**/*.mjs && flow-remove-types -p -d ./lib/ *.mjs"

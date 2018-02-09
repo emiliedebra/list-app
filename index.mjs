@@ -7,7 +7,7 @@ import { connect } from './db-connection';
 import { CONFIG } from './utils/config';
 import { User } from './data-access/index';
 
-const app: express$Application = express();
+const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
