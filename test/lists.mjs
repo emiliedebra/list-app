@@ -1,37 +1,34 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { User } from '../data-access/index';
+import List from '../data-access/lists';
 
-describe('User Tests', () => {
+describe('List Tests', () => {
   it('gets a list of users', (done) => {
-    User
-      .getUsers()
+    List
+      .getLists()
       .then((results) => {
         expect(results).to.be.eql([]);
         done();
       })
       .catch(err => done(new Error(err.message)));
   });
-  it('gets a user by id', () => {
+  it('gets a list by id', () => {
     expect(true).to.be.equal(false);
   });
-  it('adds a user', (done) => {
-    const user = {
-      name: 'Emilie Wood',
-      email: 'emilie@anotherway.co.za',
+  it('adds a list', (done) => {
+    const list = {
     };
-    User
-      .addUser(user)
+    List
+      .addList(list)
       .then((results) => {
         // console.log(results);
-        expect(results.name).to.be.eql('Emilie Wood');
-        expect(results.email).to.be.eql('emilie@anotherway.co.za');
+        expect(list).to.be.eql(results); // gimicky - change
         done();
       })
       .catch(err => done(new Error(err.message)));
   });
-  it('mutates a user', () => {
+  it('mutates a list', () => {
     expect(true).to.be.equal(false);
   });
 });
