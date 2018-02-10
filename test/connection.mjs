@@ -29,7 +29,7 @@ beforeEach((done) => {
 function setUpConnection(done) {
   connect()
     .then(() => {
-      console.log('DB got connected');
+      console.log('Database connection established.');
       done();
     })
     .catch(err => done(err));

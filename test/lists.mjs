@@ -1,7 +1,10 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
+// model imports
 import { List } from '../data-access/index';
+// constant imports
+import { list, mutatedList } from './constants';
 
 describe('List Tests', () => {
   it('gets an array of lists', (done) => {
@@ -14,13 +17,6 @@ describe('List Tests', () => {
       .catch(err => done(new Error(err.message)));
   });
   it('adds a list', (done) => {
-    const list = {
-      name: 'Shopping',
-      unchecked_items: [
-        'Bread',
-        'Milk',
-      ],
-    };
     List
       .addList(list)
       .then((results) => {
@@ -33,13 +29,6 @@ describe('List Tests', () => {
       .catch(err => done(new Error(err.message)));
   });
   it('gets a list by id', (done) => {
-    const list = {
-      name: 'Shopping',
-      unchecked_items: [
-        'Bread',
-        'Milk',
-      ],
-    };
     List
       .addList(list)
       .then((result) => {
@@ -54,26 +43,11 @@ describe('List Tests', () => {
   });
 
   it('mutates a list', (done) => {
-    const list = {
-      name: 'Shopping',
-      unchecked_items: [
-        'Bread',
-        'Milk',
-      ],
-    };
-    const mutated = {
-      name: 'Shopping',
-      unchecked_items: [
-        'Bread',
-        'Milk',
-        'Cheese',
-      ],
-    };
     List
       .addList(list)
       .then((result) => {
-        mutated._id = result._id;
-        List.updateList(mutated)
+        mutatedList._id = result._id;
+        List.updateList(mutatedList)
           .then(() => {
             List
               .getList(result._id)
@@ -90,13 +64,6 @@ describe('List Tests', () => {
   });
 
   it('removes a list', (done) => {
-    const list = {
-      name: 'Shopping',
-      unchecked_items: [
-        'Bread',
-        'Milk',
-      ],
-    };
     List
       .addList(list)
       .then((result) => {
@@ -112,6 +79,80 @@ describe('List Tests', () => {
               .catch(err => done(err));
           })
           .catch(err => done(err));
+      })
+      .catch(err => done(err));
+  });
+
+  it('gets the checked items', (done) => {
+    List
+      .addList(list)
+      .then((result) => {
+        List.getCheckedItems(result._id)
+          .then((result2) => {
+            expect(result2).to.have.length(0);
+            done();
+          })
+          .catch(err => done(err));
+      })
+      .catch(err => done(err));
+  });
+  it('gets the unchecked items', (done) => {
+    List
+      .addList(list)
+      .then((result) => {
+        List.getUncheckedItems(result._id)
+          .then((result2) => {
+            expect(result2).to.have.length(2);
+            done();
+          })
+          .catch(err => done(err));
+      })
+      .catch(err => done(err));
+  });
+  it('checks an item', (done) => {
+    List
+      .addList(list)
+      .then((result) => {
+        List.checkItem(result._id, 'Bread')
+          .then(() => {
+            List.getCheckedItems(result._id)
+              .then((result2) => {
+                expect(result2).to.have.length(1);
+                List.getUncheckedItems(result._id)
+                  .then((result3) => {
+                    expect(result3).to.have.length(1);
+                    done();
+                  })
+                  .catch(err => done(err));
+              })
+              .catch(err => done(err));
+          })
+          .catch(err => done(err));
+      })
+      .catch(err => done(err));
+  });
+  it('unchecks an item', (done) => {
+    List
+      .addList(list)
+      .then((result) => {
+        List.checkItem(result._id, 'Bread')
+          .then(() => {
+            List.checkItem(result._id, 'Milk')
+              .then(() => {
+                List.uncheckItem(result._id, 'Milk')
+                  .then(() => {
+                    List.getUncheckedItems(result._id)
+                      .then((result2) => {
+                        expect(result2).to.have.length(1);
+                        expect(result2).to.contain('Milk');
+                        done();
+                      })
+                      .catch(err => done(err));
+                  })
+                  .catch(err => done(err));
+              })
+              .catch(err => done(err));
+          }).catch(err => done(err));
       })
       .catch(err => done(err));
   });
