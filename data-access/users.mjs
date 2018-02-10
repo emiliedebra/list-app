@@ -32,4 +32,10 @@ export default class TUser {
       .then(result => result)
       .catch(err => err);
   }
+
+  static removeUser(id: number): Promise<*> {
+    return UserModel.findByIdAndRemove(id)
+      .then(result => result)
+      .catch(err => err);
+  }
 }

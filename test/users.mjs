@@ -13,6 +13,7 @@ describe('User Tests', () => {
       })
       .catch(err => done(new Error(err.message)));
   });
+
   it('adds a user', (done) => {
     const user = {
       name: 'Emilie Wood',
@@ -28,6 +29,7 @@ describe('User Tests', () => {
       })
       .catch(err => done(err));
   });
+
   it('gets a user by id', (done) => {
     const user = {
       name: 'Emilie Wood',
@@ -50,6 +52,7 @@ describe('User Tests', () => {
       })
       .catch(err => done(err));
   });
+
   it('mutates a user', (done) => {
     const user = {
       name: 'Emilie Wood',
@@ -84,6 +87,7 @@ describe('User Tests', () => {
       })
       .catch(err => done(err));
   });
+
   it('gets a user by list_id', (done) => {
     const user = {
       name: 'Emilie Wood',
@@ -106,6 +110,7 @@ describe('User Tests', () => {
       })
       .catch(err => done(err));
   });
+
   it('gets an array of users by list_id', (done) => {
     const user = {
       name: 'Emilie Wood',
@@ -142,12 +147,36 @@ describe('User Tests', () => {
       })
       .catch(err => done(err));
   });
+
   it('returns [] if no users with list_id', (done) => {
     User
       .getUsersByListId(1)
       .then((result) => {
         expect(result).to.be.eql([]);
         done();
+      })
+      .catch(err => done(err));
+  });
+
+  it('removes a user', (done) => {
+    const user = {
+      name: 'Emilie Wood',
+    };
+    User
+      .addUser(user)
+      .then((result) => {
+        User
+          .removeUser(result._id)
+          .then(() => {
+            User
+              .getUsers()
+              .then((result2) => {
+                expect(result2).to.be.eql([]);
+                done();
+              })
+              .catch(err => done(err));
+          })
+          .catch(err => done(err));
       })
       .catch(err => done(err));
   });
