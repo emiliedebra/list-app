@@ -24,9 +24,7 @@ export default class TList {
   // NOTE: returns the old list
   static updateList(list: Object): Promise<*> {
     return ListModel.findByIdAndUpdate(list._id, list)
-      .then((result: Object) => {
-        return result;
-      })
+      .then((result: Object) => result)
       .catch((err: Error) => err);
   }
 
