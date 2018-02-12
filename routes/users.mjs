@@ -26,15 +26,8 @@ userRouter.post('/login', (req, res: express$Response) => {
           throw new Error('Incorrect password.');
         });
     })
-    .catch(err => res.status(400).send(err.message));
+    .catch((error: Error) => res.status(400).send(error.message));
 });
-
-userRouter.get('/users', (req: express$Request, res: express$Response) => User
-  .getUsers()
-  .then((result: Array<string>) => {
-    res.send(result);
-  })
-  .catch((error: Error) => console.log(error)));
 
 userRouter.post('/add-user', (req, res: express$Response) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, 8);
@@ -44,7 +37,25 @@ userRouter.post('/add-user', (req, res: express$Response) => {
       result.password = 0; // projection
       res.status(200).send(result);
     })
-    .catch((err: Error) => res.status(400).send(err.message));
+    .catch((error: Error) => res.status(400).send(error.message));
+});
+
+userRouter.post('/update-user', (req, res: express$Response) => {
+  User
+    .updateUser(req.body)
+    .then(() => {
+      res.status(200);
+    })
+    .catch((error: Error) => res.status(400).send(error.message));
+});
+
+userRouter.get('/users', (req: express$Request, res: express$Response) => {
+  User
+    .getUsers()
+    .then((result: Array<string>) => {
+      res.send(result);
+    })
+    .catch((error: Error) => res.status(400).send(error.message));
 });
 
 export default userRouter;
